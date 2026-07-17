@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Judiciary Prime — BSA 2023 Test 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Serif+4:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #0B1730;
+    display: flex;
+    justify-content: center;
+    padding: 28px 14px;
+    font-family: 'Source Serif 4', Georgia, serif;
+  }
+  .frame {
+    width: 100%;
+    max-width: 560px;
+    background: #0F1F3D;
+    border-radius: 14px;
+    border: 1px solid rgba(201,162,39,0.22);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(201,162,39,0.18);
+  }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .seal {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid rgba(201,162,39,0.5);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 14.5px;
+    letter-spacing: 0.06em; color: #F3EEE1;
+  }
+  .brand-sub { font-size: 11px; color: #8A8471; margin-top: 2px; }
+  .timer-box {
+    display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+    border-radius: 8px; border: 1px solid rgba(201,162,39,0.35);
+    font-family: 'JetBrains Mono', monospace; color: #F3EEE1;
+  }
+  .timer-box.warn { border-color: #C9A227; }
+  .timer-box.critical { border-color: #A13D3D; color: #A13D3D; }
+  .screen { padding: 22px 20px 26px; }
+  .paper-card { background: #F3EEE1; border-radius: 10px; padding: 24px 22px; color: #1C1C1C; }
+  .eyebrow { font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; color: #8A6D1F; margin-bottom: 10px; }
+  h1.title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; margin: 0 0 10px; color: #0F1F3D; line-height: 1.25; }
+  .subtitle { font-size: 14px; line-height: 1.55; color: #3B3B3B; margin: 0 0 20px; }
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .meta-item { border: 1px solid rgba(15,31,61,0.14); border-radius: 8px; padding: 10px 12px; background: rgba(15,31,61,0.03); }
+  .meta-label { font-size: 10.5px; letter-spacing: 0.06em; color: #8A8471; margin-bottom: 3px; text-transform: uppercase; }
+  .meta-value { font-size: 14.5px; font-weight: 600; color: #0F1F3D; }
+  .field-label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; color: #8A6D1F; text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .name-input {
+    width: 100%; padding: 11px 13px; border-radius: 8px; border: 1.5px solid rgba(15,31,61,0.2);
+    background: #fff; font-size: 14.5px; font-family: 'Source Serif 4', serif; color: #1C1C1C;
+    margin-bottom: 18px;
+  }
+  .name-input:focus { outline: none; border-color: #C9A227; }
+  .btn-primary {
+    width: 100%; background: #0F1F3D; color: #F3EEE1; border: none; border-radius: 8px;
+    padding: 13px 16px; font-size: 14.5px; font-weight: 600; font-family: 'Source Serif 4', serif;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-primary:disabled { opacity: 0.45; cursor: default; }
+  .btn-whatsapp {
+    width: 100%; background: #25D366; color: #06390F; border: none; border-radius: 8px;
+    padding: 13px 16px; font-size: 14.5px; font-weight: 700; font-family: 'Source Serif 4', serif;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 10px; text-decoration: none;
+  }
+  .start-note { margin-top: 12px; font-size: 12px; color: #8A8471; text-align: center; }
+  .error-note { font-size: 12px; color: #A13D3D; margin: -12px 0 16px; display: none; }
+  .progress-row { margin-bottom: 16px; }
+  .progress-track { height: 4px; background: rgba(243,238,225,0.12); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #C9A227; transition: width 0.25s ease; }
+  .progress-label { font-size: 11.5px; color: #8A8471; margin-top: 6px; }
+  .q-card { background: rgba(243,238,225,0.04); border: 1px solid rgba(243,238,225,0.12); border-radius: 10px; padding: 18px 18px 20px; }
+  .q-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .subject-tag {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; color: #C9A227;
+    border: 1px solid rgba(201,162,39,0.35); border-radius: 5px; padding: 3px 8px; text-transform: uppercase;
+  }
+  .flag-btn { display: flex; align-items: center; gap: 5px; background: transparent; border: none; color: #8A8471; font-size: 11.5px; cursor: pointer; font-family: 'Source Serif 4', serif; }
+  .flag-btn.active { color: #C9A227; }
+  .q-text { font-size: 15.5px; line-height: 1.5; color: #F3EEE1; margin-bottom: 18px; font-family: 'Fraunces', serif; font-weight: 500; }
+  .options-col { display: flex; flex-direction: column; gap: 9px; }
+  .option-btn {
+    display: flex; align-items: center; gap: 12px; padding: 11px 13px;
+    background: rgba(243,238,225,0.03); border: 1px solid rgba(243,238,225,0.14);
+    border-radius: 8px; cursor: pointer; text-align: left; width: 100%;
+  }
+  .option-btn.selected { background: rgba(201,162,39,0.1); border-color: #C9A227; }
+  .option-letter {
+    width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(243,238,225,0.25);
+    display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 600;
+    color: #B9B4A2; flex-shrink: 0;
+  }
+  .option-btn.selected .option-letter { background: #C9A227; border-color: #C9A227; color: #0F1F3D; }
+  .option-text { font-size: 13.5px; color: #EDE8D9; line-height: 1.4; }
+  .nav-row { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; }
+  .nav-btn {
+    display: flex; align-items: center; gap: 6px; background: transparent;
+    border: 1px solid rgba(243,238,225,0.2); color: #EDE8D9; border-radius: 8px;
+    padding: 10px 16px; font-size: 13.5px; cursor: pointer; font-family: 'Source Serif 4', serif;
+  }
+  .nav-btn:disabled { opacity: 0.4; cursor: default; }
+  .nav-btn-primary {
+    display: flex; align-items: center; gap: 6px; background: rgba(201,162,39,0.14);
+    border: 1px solid #C9A227; color: #F3EEE1; border-radius: 8px; padding: 10px 16px;
+    font-size: 13.5px; cursor: pointer; font-family: 'Source Serif 4', serif; margin-left: auto;
+  }
+  .submit-btn {
+    background: #A13D3D; border: none; color: #F3EEE1; border-radius: 8px;
+    padding: 10px 20px; font-size: 13.5px; font-weight: 600; cursor: pointer;
+    font-family: 'Source Serif 4', serif; margin-left: auto;
+  }
+  .dots-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; max-height: 140px; overflow-y: auto; }
+  .dot {
+    width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(243,238,225,0.28);
+    font-size: 10px; font-weight: 600; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+    background: transparent; color: #B9B4A2; flex-shrink: 0;
+  }
+  .dot.answered { background: #C9A227; color: #0F1F3D; border-color: #C9A227; }
+  .dot.current { border-color: #F3EEE1; }
+  .student-name { font-size: 13px; color: #8A8471; margin-bottom: 4px; }
+  .score-row { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+  .score-circle {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    width: 92px; height: 92px; border-radius: 50%; border: 2px solid #0F1F3D; flex-shrink: 0;
+  }
+  .score-big { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: #0F1F3D; line-height: 1; }
+  .score-of { font-size: 12px; color: #8A8471; font-weight: 500; }
+  .verdict { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; color: #0F1F3D; margin-bottom: 8px; }
+  .score-stats-row { display: flex; gap: 16px; }
+  .score-stat-value { font-size: 16px; font-weight: 700; }
+  .score-stat-label { font-size: 10.5px; color: #8A8471; letter-spacing: 0.03em; }
+  .review-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin-bottom: 20px; max-height: 260px; overflow-y: auto; }
+  .review-tile {
+    display: flex; align-items: center; justify-content: space-between; padding: 7px 8px;
+    border-radius: 6px; border: 1.5px solid rgba(15,31,61,0.14); background: rgba(15,31,61,0.03);
+    font-size: 11.5px; font-weight: 600; color: #0F1F3D; cursor: pointer; font-family: 'Source Serif 4', serif;
+  }
+  .sent-note { font-size: 11.5px; color: #4C7A5A; text-align: center; margin-bottom: 10px; display: none; }
+  .back-btn {
+    display: flex; align-items: center; gap: 5px; background: transparent; border: none;
+    color: #B9B4A2; font-size: 12.5px; cursor: pointer; margin-bottom: 12px; font-family: 'Source Serif 4', serif;
+  }
+  .review-q-num { font-size: 12px; color: #8A8471; }
+  .review-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(243,238,225,0.14); }
+  .explain-box { margin-top: 16px; padding: 12px 14px; border-radius: 8px; background: rgba(201,162,39,0.08); border: 1px solid rgba(201,162,39,0.25); }
+  .explain-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; color: #C9A227; margin-bottom: 5px; text-transform: uppercase; }
+  .explain-text { font-size: 13px; color: #EDE8D9; line-height: 1.5; }
+  .footer { padding: 12px 20px; border-top: 1px solid rgba(201,162,39,0.14); font-size: 10.5px; color: #6B6754; text-align: center; line-height: 1.5; }
+  .hidden { display: none !important; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="header">
+    <div class="header-left">
+      <div class="seal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.75"><path d="M12 3v18M5 7l-3 6a3 3 0 0 0 6 0l-3-6zM19 7l-3 6a3 3 0 0 0 6 0l-3-6zM4 7h16M8 3h8"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">JUDICIARY PRIME</div>
+        <div class="brand-sub">BSA 2023 &middot; Test 02</div>
+      </div>
+    </div>
+    <div class="timer-box hidden" id="timerBox">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span id="timerText">45:00</span>
+    </div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div class="screen" id="startScreen">
+    <div class="paper-card">
+      <div class="eyebrow">ADMIT CARD &middot; JUDICIARY &amp; PCS-J PRELIMS</div>
+      <h1 class="title">Bharatiya Sakshya Adhiniyam, 2023 — Test 02</h1>
+      <p class="subtitle">50 objective questions from Sections 1–2, 3–9, 12–13, 22–24, 26, 39–45, 47–49, and 54–55 of the BSA, 2023.</p>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-label">Questions</div><div class="meta-value">50</div></div>
+        <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">45 minutes</div></div>
+        <div class="meta-item"><div class="meta-label">Marking</div><div class="meta-value">+1, no negative</div></div>
+        <div class="meta-item"><div class="meta-label">Statute</div><div class="meta-value">BSA, 2023</div></div>
+      </div>
+      <label class="field-label" for="nameInput">Your Name</label>
+      <input class="name-input" id="nameInput" type="text" placeholder="Enter your full name" />
+      <div class="error-note" id="nameError">Please enter your name to begin.</div>
+      <button class="btn-primary" id="startBtn">Begin Test →</button>
+      <div class="start-note">Timer starts the moment you begin. The test auto-submits at 00:00.</div>
+    </div>
+  </div>
+
+  <!-- TEST SCREEN -->
+  <div class="screen hidden" id="testScreen">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:2%"></div></div>
+      <div class="progress-label" id="progressLabel">Q1 / 50 &middot; 0 answered</div>
+    </div>
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="subject-tag" id="subjectTag"></span>
+        <button class="flag-btn" id="flagBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          <span id="flagLabel">Flag for review</span>
+        </button>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="options-col" id="optionsCol"></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn">&larr; Previous</button>
+      <button class="nav-btn-primary hidden" id="nextBtn">Next &rarr;</button>
+      <button class="submit-btn hidden" id="submitBtn">Submit Test</button>
+    </div>
+    <div class="dots-row" id="dotsRow"></div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="screen hidden" id="resultScreen">
+    <div class="paper-card">
+      <div class="eyebrow">RESULT &middot; BSA 2023 TEST 02</div>
+      <div class="student-name" id="studentNameLabel"></div>
+      <div class="score-row">
+        <div class="score-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.75"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>
+          <div class="score-big"><span id="scoreVal">0</span><span class="score-of">/50</span></div>
+        </div>
+        <div>
+          <div class="verdict" id="verdictText"></div>
+          <div class="score-stats-row">
+            <div><div class="score-stat-value" style="color:#4C7A5A" id="correctVal">0</div><div class="score-stat-label">Correct</div></div>
+            <div><div class="score-stat-value" style="color:#A13D3D" id="wrongVal">0</div><div class="score-stat-label">Wrong</div></div>
+            <div><div class="score-stat-value" style="color:#8A8471" id="unattVal">0</div><div class="score-stat-label">Unattempted</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="review-grid" id="reviewGrid"></div>
+      <div class="sent-note" id="sentNote">✓ Result opened in WhatsApp — tap send to submit.</div>
+      <a class="btn-whatsapp" id="whatsappBtn" href="#" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="#06390F"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2z"/></svg>
+        Send Result to Judiciary Prime
+      </a>
+      <button class="btn-primary" id="retakeBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F3EEE1" stroke-width="2.25"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+        Retake Test
+      </button>
+    </div>
+  </div>
+
+  <!-- REVIEW DETAIL SCREEN -->
+  <div class="screen hidden" id="reviewScreen">
+    <button class="back-btn" id="backBtn">&larr; Back to scorecard</button>
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="subject-tag" id="rSubjectTag"></span>
+        <span class="review-q-num" id="rQNum"></span>
+      </div>
+      <div class="q-text" id="rQText"></div>
+      <div class="options-col" id="rOptionsCol"></div>
+      <div class="explain-box">
+        <div class="explain-label">Why</div>
+        <div class="explain-text" id="rExplainText"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Judiciary Prime &middot; BSA, 2023 (in force 1 July 2024) &middot; verify section numbers against the current bare act before relying on them.</div>
+</div>
+
+<script>
+const RESULT_WHATSAPP_NUMBER = "917466900302";
+
+const QUESTIONS = [
+  { subject: "BSA \u00a71-2", q: "The Preliminary chapter of the BSA, 2023 (Sections 1\u20132) covers which two topics?", options: ["Short title, application, commencement & Definitions", "Relevancy of facts & Res gestae", "Admissions & Confessions", "Burden of proof & Estoppel"], answer: 0, explain: "Chapter I (Sections 1\u20132) is 'Preliminary' \u2014 Section 1 covers short title, application and commencement, and Section 2 contains Definitions." },
+  { subject: "BSA \u00a72", q: "Section 2 of the BSA, 2023 is titled:", options: ["Interpretation clause", "Definitions", "Short title", "Preamble"], answer: 1, explain: "Section 2 is titled 'Definitions' and defines key terms like Court, fact, relevant, document, evidence, proved, disproved, and presumptions." },
+  { subject: "BSA \u00a72", q: "Under Section 2, whenever the Act directs that the Court 'shall presume' a fact, the Court:", options: ["may either regard it as proved or call for further proof", "shall regard it as proved, unless and until it is disproved", "must ignore the fact entirely", "may presume it only in civil cases"], answer: 1, explain: "Section 2's definition of 'shall presume' requires the Court to regard the fact as proved unless and until it is disproved." },
+  { subject: "BSA \u00a73", q: "Section 3 of the BSA, 2023, 'Evidence may be given of facts in issue and relevant facts,' establishes:", options: ["the general rule on what evidence may be produced before a Court", "the rule on dying declarations", "the rule on expert opinions", "the rule on admissibility of electronic records"], answer: 0, explain: "Section 3 lays down the foundational rule that evidence may be given of facts in issue and of facts declared relevant under the Act, and of no others." },
+  { subject: "BSA \u00a74", q: "Facts forming part of the same transaction as a fact in issue \u2014 the doctrine of res gestae \u2014 are made relevant under:", options: ["Section 6", "Section 4", "Section 8", "Section 9"], answer: 1, explain: "Section 4, 'Relevancy of facts forming part of same transaction,' embodies the doctrine of res gestae." },
+  { subject: "BSA \u00a75", q: "Section 5 of the BSA, 2023 makes relevant facts which are the:", options: ["motive for an act", "occasion, cause or effect of a fact in issue or relevant fact", "opinion of an expert", "character of a party"], answer: 1, explain: "Section 5 is titled 'Facts which are occasion, cause or effect of facts in issue or relevant facts.'" },
+  { subject: "BSA \u00a75", q: "Under Section 5, a fact which constitutes the 'state of things' under which a fact in issue happened is treated as relevant, provided it:", options: ["afforded an opportunity for its occurrence or transaction", "is entirely unrelated in time to the fact in issue", "occurred only after the trial began", "was never disclosed to police"], answer: 0, explain: "Section 5 makes relevant facts constituting the state of things under which facts in issue happened, or which afforded an opportunity for their occurrence." },
+  { subject: "BSA \u00a76", q: "Motive, preparation, and previous or subsequent conduct are dealt with under which section?", options: ["Section 4", "Section 5", "Section 6", "Section 7"], answer: 2, explain: "Section 6 is titled 'Motive, Preparation and previous or subsequent conduct.'" },
+  { subject: "BSA \u00a76", q: "Under Section 6, the previous or subsequent conduct of a party or their agent, if it influences or is influenced by a fact in issue, is:", options: ["always irrelevant", "relevant, subject to the conditions laid down in the section", "relevant only in civil suits", "relevant only if made under oath"], answer: 1, explain: "Section 6 makes such conduct relevant, subject to the qualifications set out in the section (e.g., statements accompanying and explaining acts)." },
+  { subject: "BSA \u00a77", q: "Facts necessary to explain or introduce a fact in issue or relevant fact are made relevant under:", options: ["Section 6", "Section 7", "Section 8", "Section 9"], answer: 1, explain: "Section 7 is titled 'Facts necessary to explain or introduce fact in issue or relevant facts.'" },
+  { subject: "BSA \u00a77", q: "A fact necessary to explain or introduce a relevant fact under Section 7 may include facts that:", options: ["establish the identity of anything or person whose identity is relevant", "are always irrelevant to identity", "can never support a fact in issue", "must always be documentary"], answer: 0, explain: "Section 7 covers facts that, among other things, establish the identity of any thing or person whose identity is relevant, or fix the time or place at which a fact happened." },
+  { subject: "BSA \u00a78", q: "Section 8 of the BSA, 2023 deals with:", options: ["Confessions to police", "Things said or done by a conspirator in reference to the common design", "Opinions of experts", "Character evidence"], answer: 1, explain: "Section 8 is titled 'Things said or done by conspirator in reference to common design.'" },
+  { subject: "BSA \u00a78", q: "Under Section 8, statements or acts of one conspirator in reference to the common design can be used to prove the existence of the conspiracy against:", options: ["only that individual conspirator", "each person believed to be a party to the conspiracy, subject to the section's conditions", "no one, since it is always inadmissible hearsay", "only the first person charged"], answer: 1, explain: "Section 8 allows such statements or acts, made in reference to the common design, to be used as evidence against each person believed to be a party to the conspiracy." },
+  { subject: "BSA \u00a79", q: "'When facts not otherwise relevant become relevant' is the heading of:", options: ["Section 7", "Section 8", "Section 9", "Section 10"], answer: 2, explain: "Section 9 carries the heading 'When facts not otherwise relevant become relevant.'" },
+  { subject: "BSA \u00a79", q: "Under Section 9, facts not otherwise relevant become relevant if they are inconsistent with a fact in issue or relevant fact, or if, by themselves or with other facts, they make the existence of such a fact:", options: ["impossible to determine", "highly probable or improbable", "legally irrelevant", "subject to privilege"], answer: 1, explain: "Section 9 makes such facts relevant if they are inconsistent with, or render highly probable or improbable, a fact in issue or relevant fact." },
+  { subject: "BSA \u00a712", q: "Facts showing the existence of a state of mind, or of body or bodily feeling, are made relevant under:", options: ["Section 11", "Section 12", "Section 13", "Section 14"], answer: 1, explain: "Section 12 is titled 'Facts showing existence of state of mind, or of body or bodily feeling.'" },
+  { subject: "BSA \u00a712", q: "Under Section 12, 'state of mind' as illustrated in the section includes states such as:", options: ["intention, knowledge, good faith, and negligence", "only physical health", "only financial solvency", "only literacy"], answer: 0, explain: "Section 12 covers states of mind such as intention, knowledge, good faith, negligence, and similar mental states when relevant to a fact in issue." },
+  { subject: "BSA \u00a713", q: "Facts bearing on the question whether an act was accidental or intentional are dealt with under:", options: ["Section 12", "Section 13", "Section 14", "Section 6"], answer: 1, explain: "Section 13 is titled 'Facts bearing on question whether act was accidental or intentional.'" },
+  { subject: "BSA \u00a713", q: "Section 13 is typically invoked to rebut a defence of:", options: ["alibi", "accident or want of intention, by showing a pattern of similar acts", "insanity alone", "minority"], answer: 1, explain: "Section 13 allows evidence of a series of similar occurrences to show that the act in question was not accidental or unintentional." },
+  { subject: "BSA \u00a722", q: "Section 22 of the BSA, 2023 renders a confession irrelevant in a criminal proceeding when it is caused by:", options: ["legal advice", "inducement, threat, coercion or promise from a person in authority", "a lawful arrest", "a plea bargain"], answer: 1, explain: "Section 22, 'Confession caused by inducement, threat, coercion or promise, when irrelevant in criminal proceeding,' excludes confessions obtained this way." },
+  { subject: "BSA \u00a723", q: "A confession made to a police officer is dealt with under which section, and can it be proved against the accused?", options: ["Section 22; always provable", "Section 23; shall not be proved against the accused", "Section 24; provable only with a lawyer present", "Section 26; entirely irrelevant"], answer: 1, explain: "Section 23(1) provides that no confession made to a police officer shall be proved as against a person accused of any offence \u2014 an absolute bar, not a mere presumption." },
+  { subject: "BSA \u00a724", q: "When two or more persons are jointly tried for the same offence and one confesses implicating a co-accused, Section 24 allows the Court to:", options: ["ignore the confession entirely", "consider the confession against the co-accused as well as the confessor", "use it only against the confessor's lawyer", "automatically acquit the co-accused"], answer: 1, explain: "Section 24 lets the Court take a proved confession into consideration as against a co-accused jointly tried for the same offence." },
+  { subject: "BSA \u00a724", q: "Section 24 additionally deems a joint trial to include a co-accused who:", options: ["turns approver", "has absconded or failed to comply with a proclamation under the BNSS", "is a minor", "is a government servant"], answer: 1, explain: "Section 24 extends the joint-trial doctrine to a co-accused who has absconded or failed to comply with a proclamation issued under Section 84 of the BNSS, 2023." },
+  { subject: "BSA \u00a726", q: "Statements of relevant facts made by a person who is dead, cannot be found, or cannot give evidence are dealt with under:", options: ["Section 22", "Section 24", "Section 26", "Section 39"], answer: 2, explain: "Section 26 covers 'Cases in which statement of relevant fact by person who is dead or cannot be found, etc., is relevant.'" },
+  { subject: "BSA \u00a726(a)", q: "Within Section 26, statements as to the cause of a person's death or the circumstances of the transaction resulting in their death are known as:", options: ["admissions", "dying declarations, under clause (a)", "expert opinions", "judicial confessions"], answer: 1, explain: "Section 26(a) covers dying declarations \u2014 statements as to the cause of death or the circumstances of the transaction resulting in death." },
+  { subject: "BSA \u00a726(a)", q: "A dying declaration is relevant under Section 26(a) irrespective of:", options: ["whether the accused is named in it", "the nature of the proceeding in which the cause of death comes into question", "whether the deceased had a criminal record", "whether the statement was recorded under oath"], answer: 1, explain: "Dying declarations are relevant whatever the nature of the proceeding in which the cause of the deceased's death comes into question." },
+  { subject: "BSA \u00a726", q: "Besides dying declarations, Section 26 also covers statements made by unavailable persons that were made:", options: ["in the ordinary course of business or duty, or fall within the other special categories listed in the section", "only in wills and testaments", "only as judicial confessions", "only in expert reports"], answer: 0, explain: "Section 26 lists several categories beyond dying declarations, including statements made in the ordinary course of business, against the maker's interest, and others." },
+  { subject: "BSA \u00a739", q: "'Opinions of experts' as evidence are dealt with under which section?", options: ["Section 38", "Section 39", "Section 40", "Section 45"], answer: 1, explain: "Section 39 is titled 'Opinions of experts.'" },
+  { subject: "BSA \u00a739", q: "Expert opinion under Section 39 is relevant on points such as:", options: ["foreign law, science, art, and identity of handwriting or finger impressions, among others", "only foreign law", "only medical science", "only fingerprints"], answer: 0, explain: "Section 39 makes expert opinion relevant on foreign law, science, art, and identity of handwriting or finger/thumb impressions, among other specified matters." },
+  { subject: "BSA \u00a740", q: "Section 40 of the BSA, 2023 deals with:", options: ["Grounds of opinion, when relevant", "Facts bearing upon opinions of experts", "Opinion as to handwriting", "Opinion on relationship"], answer: 1, explain: "Section 40 is titled 'Facts bearing upon opinions of experts.'" },
+  { subject: "BSA \u00a740", q: "Facts bearing on an expert's opinion under Section 40 include facts that:", options: ["support or are inconsistent with the expert's opinion, if otherwise relevant", "are known only to the Judge", "must always contradict the expert", "relate solely to the expert's academic qualifications"], answer: 0, explain: "Section 40 makes facts relevant if they support or are inconsistent with the opinions of experts, when such opinions are themselves relevant." },
+  { subject: "BSA \u00a741", q: "Opinion as to handwriting and signature is dealt with under which section, and whose opinion (besides a handwriting expert) may be relevant?", options: ["Section 39; only a forensic expert", "Section 41; also a person acquainted with the handwriting in question", "Section 45; only the Court itself", "Section 44; only relatives"], answer: 1, explain: "Section 41, 'Opinion as to handwriting and signature, when relevant,' also allows the opinion of a person acquainted with the handwriting in question." },
+  { subject: "BSA \u00a742", q: "Opinion as to the existence of a general custom or right is made relevant under:", options: ["Section 41", "Section 42", "Section 43", "Section 44"], answer: 1, explain: "Section 42 is titled 'Opinion as to existence of general custom or right, when relevant.'" },
+  { subject: "BSA \u00a742", q: "Under Section 42, an opinion as to a general custom or right may be given by persons who:", options: ["are Government officials only", "would be likely to know of its existence if it existed", "have never encountered the custom", "belong to a different community"], answer: 1, explain: "Section 42 allows opinions from persons who would be likely to know of the existence of the custom or right, if it existed." },
+  { subject: "BSA \u00a743", q: "Section 43 of the BSA, 2023 deals with opinion as to:", options: ["handwriting", "usages, tenets, etc.", "relationship", "general custom or right"], answer: 1, explain: "Section 43 is titled 'Opinion as to usages, tenets, etc., when relevant.'" },
+  { subject: "BSA \u00a744", q: "Opinion on relationship \u2014 e.g., whether two persons are related \u2014 is dealt with under which section, and whose opinion may be considered?", options: ["Section 44; a person who, as a member of the family or otherwise, has special means of knowledge on the subject", "Section 45; only a DNA expert", "Section 39; only a doctor", "Section 41; only a handwriting expert"], answer: 0, explain: "Section 44 allows the opinion of a person with special means of knowledge, such as a family member, on the relationship between persons." },
+  { subject: "BSA \u00a744", q: "Section 44 typically becomes relevant in questions concerning:", options: ["marriage, legitimacy, and pedigree", "contract disputes only", "property boundary disputes only", "tax assessments only"], answer: 0, explain: "Opinion on relationship under Section 44 commonly arises in matters like marriage, legitimacy, and pedigree." },
+  { subject: "BSA \u00a745", q: "Section 45, 'Grounds of opinion, when relevant,' allows:", options: ["an expert's opinion to be excluded entirely", "the facts and reasons on which an expert opinion is based to also be proved", "only the conclusion of the expert, never the reasoning", "only oral opinions, never written reports"], answer: 1, explain: "Section 45 makes the grounds on which an expert's (or other relevant) opinion is based provable, along with the opinion itself." },
+  { subject: "BSA \u00a747", q: "'In criminal cases previous good character relevant' is the heading of:", options: ["Section 46", "Section 47", "Section 48", "Section 49"], answer: 1, explain: "Section 47 carries the heading 'In criminal cases previous good character relevant.'" },
+  { subject: "BSA \u00a747", q: "Under Section 47, an accused person's previous good character is:", options: ["irrelevant in all cases", "relevant in criminal proceedings", "relevant only in civil proceedings", "relevant only for sentencing"], answer: 1, explain: "Section 47 makes the previous good character of an accused relevant in criminal proceedings." },
+  { subject: "BSA \u00a748", q: "Section 48 of the BSA, 2023 provides that in prosecutions for certain sexual offences, evidence of the victim's character or previous sexual experience:", options: ["is always relevant to consent", "is not relevant to the issue of consent or the quality of consent", "is relevant only if the victim is an adult", "must be led before framing of charge"], answer: 1, explain: "Section 48 excludes evidence of the victim's character or previous sexual experience with any person on the issue of consent or its quality." },
+  { subject: "BSA \u00a748", q: "Section 48 is particularly relevant to trials under BNS provisions relating to:", options: ["theft", "sexual offences such as rape, where consent is in issue", "forgery", "defamation"], answer: 1, explain: "Section 48 applies specifically to prosecutions for sexual offences (such as rape or attempts to commit it) under the Bharatiya Nyaya Sanhita, 2023." },
+  { subject: "BSA \u00a749", q: "Previous bad character of an accused is, as a rule under Section 49:", options: ["always relevant", "not relevant, except in reply \u2014 e.g., once good character is put in evidence", "relevant only in murder trials", "relevant only if admitted by the accused"], answer: 1, explain: "Section 49, 'Previous bad character not relevant, except in reply,' bars evidence of bad character unless the accused has led evidence of good character." },
+  { subject: "BSA \u00a749", q: "Under the Explanation to Section 49, a previous conviction is relevant as evidence of:", options: ["good character", "bad character", "motive alone", "nothing; it is inadmissible"], answer: 1, explain: "The Explanation to Section 49 provides that a previous conviction is relevant as evidence of bad character." },
+  { subject: "BSA \u00a754", q: "'Proof of facts by oral evidence' is the heading of which section, opening Chapter IV of the BSA, 2023?", options: ["Section 51", "Section 53", "Section 54", "Section 56"], answer: 2, explain: "Section 54, 'Proof of facts by oral evidence,' opens Chapter IV, 'Of Oral Evidence.'" },
+  { subject: "BSA \u00a755", q: "The rule that oral evidence must in all cases be direct \u2014 the hearsay rule \u2014 is codified under:", options: ["Section 54", "Section 55", "Section 56", "Section 94"], answer: 1, explain: "Section 55, 'Oral evidence to be direct,' codifies the rule against hearsay in Indian evidence law." },
+  { subject: "BSA \u00a755", q: "Under Section 55, if oral evidence refers to a fact which could be seen, it must be the evidence of a witness who:", options: ["heard about it from someone else", "says he saw it himself", "is a police officer", "is a handwriting expert"], answer: 1, explain: "Section 55 requires that oral evidence of a fact capable of being seen must come from a witness who says they saw it themselves." },
+  { subject: "BSA \u00a71", q: "Under Section 1(2), the BSA, 2023 applies to judicial proceedings in or before any Court, including Courts-martial, but does NOT apply to:", options: ["criminal trials", "affidavits presented to a Court or officer, or proceedings before an arbitrator", "civil suits", "appellate proceedings"], answer: 1, explain: "Section 1(2) excludes affidavits presented to any Court or officer, and proceedings before an arbitrator, from the Act's application." },
+  { subject: "BSA \u00a72", q: "Under Section 2, 'document' is defined to explicitly include:", options: ["only paper records", "electronic records", "only Government records", "only handwritten records"], answer: 1, explain: "Section 2's definition of 'document' explicitly includes electronic records, reflecting the BSA's modernised approach to evidence." },
+  { subject: "BSA \u00a72", q: "Under Section 2(1), a fact is 'relevant' to another when it is connected with the other in any of the ways referred to in the provisions relating to:", options: ["burden of proof", "relevancy of facts", "estoppel", "examination of witnesses"], answer: 1, explain: "Section 2(1)'s definition of 'relevant' ties relevancy to the ways of connection set out in the Act's own provisions on relevancy of facts (Chapter II)." }
+];
+const DURATION = 45 * 60;
+
+let current = 0;
+let selections = {};
+let flagged = {};
+let secondsLeft = DURATION;
+let timerHandle = null;
+let studentName = "";
+
+const $ = id => document.getElementById(id);
+
+function fmt(s) {
+  const m = Math.floor(s/60).toString().padStart(2,'0');
+  const sec = Math.floor(s%60).toString().padStart(2,'0');
+  return m + ':' + sec;
+}
+
+function showScreen(id) {
+  ['startScreen','testScreen','resultScreen','reviewScreen'].forEach(s => $(s).classList.toggle('hidden', s !== id));
+}
+
+function startTest() {
+  const nameVal = $('nameInput').value.trim();
+  if (!nameVal) { $('nameError').style.display = 'block'; return; }
+  $('nameError').style.display = 'none';
+  studentName = nameVal;
+
+  current = 0; selections = {}; flagged = {}; secondsLeft = DURATION;
+  $('timerBox').classList.remove('hidden');
+  showScreen('testScreen');
+  renderQuestion();
+  clearInterval(timerHandle);
+  timerHandle = setInterval(() => {
+    secondsLeft--;
+    if (secondsLeft <= 0) { secondsLeft = 0; updateTimer(); clearInterval(timerHandle); submitTest(); return; }
+    updateTimer();
+  }, 1000);
+  updateTimer();
+}
+
+function updateTimer() {
+  $('timerText').textContent = fmt(secondsLeft);
+  const box = $('timerBox');
+  box.classList.remove('warn','critical');
+  if (secondsLeft <= 60) box.classList.add('critical');
+  else if (secondsLeft <= 300) box.classList.add('warn');
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  $('subjectTag').textContent = q.subject;
+  $('qText').textContent = q.q;
+  $('progressFill').style.width = ((current+1)/QUESTIONS.length*100) + '%';
+  $('progressLabel').textContent = 'Q' + (current+1) + ' / ' + QUESTIONS.length + ' \u00b7 ' + Object.keys(selections).length + ' answered';
+
+  const optionsCol = $('optionsCol');
+  optionsCol.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn' + (selections[current] === idx ? ' selected' : '');
+    btn.innerHTML = '<span class="option-letter">' + String.fromCharCode(65+idx) + '</span><span class="option-text"></span>';
+    btn.querySelector('.option-text').textContent = opt;
+    btn.onclick = () => { selections[current] = idx; renderQuestion(); renderDots(); };
+    optionsCol.appendChild(btn);
+  });
+
+  $('flagBtn').classList.toggle('active', !!flagged[current]);
+  $('flagLabel').textContent = flagged[current] ? 'Flagged' : 'Flag for review';
+
+  $('prevBtn').disabled = current === 0;
+  const isLast = current === QUESTIONS.length - 1;
+  $('nextBtn').classList.toggle('hidden', isLast);
+  $('submitBtn').classList.toggle('hidden', !isLast);
+
+  renderDots();
+}
+
+function renderDots() {
+  const dotsRow = $('dotsRow');
+  dotsRow.innerHTML = '';
+  QUESTIONS.forEach((_, idx) => {
+    const answered = selections[idx] !== undefined;
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (answered ? ' answered' : '') + (idx === current ? ' current' : '');
+    dot.textContent = idx + 1;
+    dot.onclick = () => { current = idx; renderQuestion(); };
+    dotsRow.appendChild(dot);
+  });
+}
+
+function submitTest() {
+  clearInterval(timerHandle);
+  let score = 0, attempted = 0;
+  QUESTIONS.forEach((q, idx) => {
+    if (selections[idx] !== undefined) { attempted++; if (selections[idx] === q.answer) score++; }
+  });
+  const wrong = attempted - score;
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  const verdict = pct >= 80 ? 'Strong showing' : pct >= 50 ? 'Solid attempt' : 'Needs revision';
+
+  $('studentNameLabel').textContent = studentName;
+  $('scoreVal').textContent = score;
+  $('verdictText').textContent = verdict;
+  $('correctVal').textContent = score;
+  $('wrongVal').textContent = wrong;
+  $('unattVal').textContent = QUESTIONS.length - attempted;
+  $('sentNote').style.display = 'none';
+
+  const grid = $('reviewGrid');
+  grid.innerHTML = '';
+  QUESTIONS.forEach((q, idx) => {
+    const attemptedQ = selections[idx] !== undefined;
+    const correct = selections[idx] === q.answer;
+    const tile = document.createElement('button');
+    tile.className = 'review-tile';
+    tile.style.borderColor = !attemptedQ ? 'rgba(15,31,61,0.14)' : (correct ? '#4C7A5A' : '#A13D3D');
+    tile.innerHTML = '<span>Q' + (idx+1) + '</span>';
+    const icon = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    icon.setAttribute('width','12'); icon.setAttribute('height','12'); icon.setAttribute('viewBox','0 0 24 24');
+    icon.setAttribute('fill','none'); icon.setAttribute('stroke', !attemptedQ ? '#8A8471' : (correct ? '#4C7A5A' : '#A13D3D'));
+    icon.setAttribute('stroke-width','2.5');
+    icon.innerHTML = !attemptedQ ? '<circle cx="12" cy="12" r="9"/>' : (correct ? '<path d="M20 6 9 17l-5-5"/>' : '<path d="M18 6 6 18M6 6l12 12"/>');
+    tile.appendChild(icon);
+    tile.onclick = () => showReview(idx);
+    grid.appendChild(tile);
+  });
+
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const msg = "Judiciary Prime \u2014 BSA 2023 Test 02 Result\n" +
+    "Name: " + studentName + "\n" +
+    "Score: " + score + "/" + QUESTIONS.length + " (Correct: " + score + ", Wrong: " + wrong + ", Unattempted: " + (QUESTIONS.length - attempted) + ")\n" +
+    "Date: " + dateStr;
+  $('whatsappBtn').href = "https://wa.me/" + RESULT_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+  $('whatsappBtn').onclick = () => { $('sentNote').style.display = 'block'; };
+
+  $('timerBox').classList.add('hidden');
+  showScreen('resultScreen');
+}
+
+function showReview(idx) {
+  const q = QUESTIONS[idx];
+  const chosen = selections[idx];
+  $('rSubjectTag').textContent = q.subject;
+  $('rQNum').textContent = 'Question ' + (idx+1);
+  $('rQText').textContent = q.q;
+  $('rExplainText').textContent = q.explain;
+
+  const col = $('rOptionsCol');
+  col.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const isAnswer = i === q.answer;
+    const isChosen = i === chosen;
+    const row = document.createElement('div');
+    row.className = 'review-option';
+    row.style.borderColor = isAnswer ? '#4C7A5A' : (isChosen ? '#A13D3D' : 'rgba(243,238,225,0.14)');
+    row.style.background = isAnswer ? 'rgba(76,122,90,0.1)' : (isChosen ? 'rgba(161,61,61,0.1)' : 'transparent');
+    const iconColor = isAnswer ? '#4C7A5A' : (isChosen ? '#A13D3D' : 'rgba(243,238,225,0.25)');
+    const iconPath = isAnswer ? '<path d="M20 6 9 17l-5-5"/>' : (isChosen ? '<path d="M18 6 6 18M6 6l12 12"/>' : '<circle cx="12" cy="12" r="9"/>');
+    row.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="'+iconColor+'" stroke-width="2.5">'+iconPath+'</svg><span class="option-text"></span>';
+    row.querySelector('.option-text').textContent = opt;
+    col.appendChild(row);
+  });
+
+  showScreen('reviewScreen');
+}
+
+$('startBtn').onclick = startTest;
+$('nameInput').addEventListener('keydown', e => { if (e.key === 'Enter') startTest(); });
+$('prevBtn').onclick = () => { if (current > 0) { current--; renderQuestion(); } };
+$('nextBtn').onclick = () => { if (current < QUESTIONS.length - 1) { current++; renderQuestion(); } };
+$('submitBtn').onclick = submitTest;
+$('flagBtn').onclick = () => { flagged[current] = !flagged[current]; renderQuestion(); };
+$('retakeBtn').onclick = () => { $('nameInput').value = studentName; showScreen('startScreen'); };
+$('backBtn').onclick = () => showScreen('resultScreen');
+</script>
+</body>
+</html>
