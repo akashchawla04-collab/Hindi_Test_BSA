@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Judiciary Prime — BSA 2023 Test 02 (हिंदी)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Serif+4:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #0B1730;
+    display: flex;
+    justify-content: center;
+    padding: 28px 14px;
+    font-family: 'Source Serif 4', Georgia, serif;
+  }
+  .frame {
+    width: 100%;
+    max-width: 560px;
+    background: #0F1F3D;
+    border-radius: 14px;
+    border: 1px solid rgba(201,162,39,0.22);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(201,162,39,0.18);
+  }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .seal {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid rgba(201,162,39,0.5);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 14.5px;
+    letter-spacing: 0.06em; color: #F3EEE1;
+  }
+  .brand-sub { font-size: 11px; color: #8A8471; margin-top: 2px; }
+  .timer-box {
+    display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+    border-radius: 8px; border: 1px solid rgba(201,162,39,0.35);
+    font-family: 'JetBrains Mono', monospace; color: #F3EEE1;
+  }
+  .timer-box.warn { border-color: #C9A227; }
+  .timer-box.critical { border-color: #A13D3D; color: #A13D3D; }
+  .screen { padding: 22px 20px 26px; }
+  .paper-card { background: #F3EEE1; border-radius: 10px; padding: 24px 22px; color: #1C1C1C; }
+  .eyebrow { font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; color: #8A6D1F; margin-bottom: 10px; }
+  h1.title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; margin: 0 0 10px; color: #0F1F3D; line-height: 1.25; }
+  .subtitle { font-size: 14px; line-height: 1.55; color: #3B3B3B; margin: 0 0 20px; }
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .meta-item { border: 1px solid rgba(15,31,61,0.14); border-radius: 8px; padding: 10px 12px; background: rgba(15,31,61,0.03); }
+  .meta-label { font-size: 10.5px; letter-spacing: 0.06em; color: #8A8471; margin-bottom: 3px; text-transform: uppercase; }
+  .meta-value { font-size: 14.5px; font-weight: 600; color: #0F1F3D; }
+  .field-label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; color: #8A6D1F; text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .name-input {
+    width: 100%; padding: 11px 13px; border-radius: 8px; border: 1.5px solid rgba(15,31,61,0.2);
+    background: #fff; font-size: 14.5px; font-family: 'Source Serif 4', serif; color: #1C1C1C;
+    margin-bottom: 18px;
+  }
+  .name-input:focus { outline: none; border-color: #C9A227; }
+  .btn-primary {
+    width: 100%; background: #0F1F3D; color: #F3EEE1; border: none; border-radius: 8px;
+    padding: 13px 16px; font-size: 14.5px; font-weight: 600; font-family: 'Source Serif 4', serif;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-primary:disabled { opacity: 0.45; cursor: default; }
+  .btn-whatsapp {
+    width: 100%; background: #25D366; color: #06390F; border: none; border-radius: 8px;
+    padding: 13px 16px; font-size: 14.5px; font-weight: 700; font-family: 'Source Serif 4', serif;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 10px; text-decoration: none;
+  }
+  .start-note { margin-top: 12px; font-size: 12px; color: #8A8471; text-align: center; }
+  .error-note { font-size: 12px; color: #A13D3D; margin: -12px 0 16px; display: none; }
+  .progress-row { margin-bottom: 16px; }
+  .progress-track { height: 4px; background: rgba(243,238,225,0.12); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #C9A227; transition: width 0.25s ease; }
+  .progress-label { font-size: 11.5px; color: #8A8471; margin-top: 6px; }
+  .q-card { background: rgba(243,238,225,0.04); border: 1px solid rgba(243,238,225,0.12); border-radius: 10px; padding: 18px 18px 20px; }
+  .q-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .subject-tag {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; color: #C9A227;
+    border: 1px solid rgba(201,162,39,0.35); border-radius: 5px; padding: 3px 8px; text-transform: uppercase;
+  }
+  .flag-btn { display: flex; align-items: center; gap: 5px; background: transparent; border: none; color: #8A8471; font-size: 11.5px; cursor: pointer; font-family: 'Source Serif 4', serif; }
+  .flag-btn.active { color: #C9A227; }
+  .q-text { font-size: 15.5px; line-height: 1.5; color: #F3EEE1; margin-bottom: 18px; font-family: 'Fraunces', serif; font-weight: 500; }
+  .options-col { display: flex; flex-direction: column; gap: 9px; }
+  .option-btn {
+    display: flex; align-items: center; gap: 12px; padding: 11px 13px;
+    background: rgba(243,238,225,0.03); border: 1px solid rgba(243,238,225,0.14);
+    border-radius: 8px; cursor: pointer; text-align: left; width: 100%;
+  }
+  .option-btn.selected { background: rgba(201,162,39,0.1); border-color: #C9A227; }
+  .option-letter {
+    width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(243,238,225,0.25);
+    display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 600;
+    color: #B9B4A2; flex-shrink: 0;
+  }
+  .option-btn.selected .option-letter { background: #C9A227; border-color: #C9A227; color: #0F1F3D; }
+  .option-text { font-size: 13.5px; color: #EDE8D9; line-height: 1.4; }
+  .nav-row { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; }
+  .nav-btn {
+    display: flex; align-items: center; gap: 6px; background: transparent;
+    border: 1px solid rgba(243,238,225,0.2); color: #EDE8D9; border-radius: 8px;
+    padding: 10px 16px; font-size: 13.5px; cursor: pointer; font-family: 'Source Serif 4', serif;
+  }
+  .nav-btn:disabled { opacity: 0.4; cursor: default; }
+  .nav-btn-primary {
+    display: flex; align-items: center; gap: 6px; background: rgba(201,162,39,0.14);
+    border: 1px solid #C9A227; color: #F3EEE1; border-radius: 8px; padding: 10px 16px;
+    font-size: 13.5px; cursor: pointer; font-family: 'Source Serif 4', serif; margin-left: auto;
+  }
+  .submit-btn {
+    background: #A13D3D; border: none; color: #F3EEE1; border-radius: 8px;
+    padding: 10px 20px; font-size: 13.5px; font-weight: 600; cursor: pointer;
+    font-family: 'Source Serif 4', serif; margin-left: auto;
+  }
+  .dots-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; max-height: 140px; overflow-y: auto; }
+  .dot {
+    width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(243,238,225,0.28);
+    font-size: 10px; font-weight: 600; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+    background: transparent; color: #B9B4A2; flex-shrink: 0;
+  }
+  .dot.answered { background: #C9A227; color: #0F1F3D; border-color: #C9A227; }
+  .dot.current { border-color: #F3EEE1; }
+  .student-name { font-size: 13px; color: #8A8471; margin-bottom: 4px; }
+  .score-row { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+  .score-circle {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    width: 92px; height: 92px; border-radius: 50%; border: 2px solid #0F1F3D; flex-shrink: 0;
+  }
+  .score-big { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: #0F1F3D; line-height: 1; }
+  .score-of { font-size: 12px; color: #8A8471; font-weight: 500; }
+  .verdict { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; color: #0F1F3D; margin-bottom: 8px; }
+  .score-stats-row { display: flex; gap: 16px; }
+  .score-stat-value { font-size: 16px; font-weight: 700; }
+  .score-stat-label { font-size: 10.5px; color: #8A8471; letter-spacing: 0.03em; }
+  .review-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin-bottom: 20px; max-height: 260px; overflow-y: auto; }
+  .review-tile {
+    display: flex; align-items: center; justify-content: space-between; padding: 7px 8px;
+    border-radius: 6px; border: 1.5px solid rgba(15,31,61,0.14); background: rgba(15,31,61,0.03);
+    font-size: 11.5px; font-weight: 600; color: #0F1F3D; cursor: pointer; font-family: 'Source Serif 4', serif;
+  }
+  .sent-note { font-size: 11.5px; color: #4C7A5A; text-align: center; margin-bottom: 10px; display: none; }
+  .back-btn {
+    display: flex; align-items: center; gap: 5px; background: transparent; border: none;
+    color: #B9B4A2; font-size: 12.5px; cursor: pointer; margin-bottom: 12px; font-family: 'Source Serif 4', serif;
+  }
+  .review-q-num { font-size: 12px; color: #8A8471; }
+  .review-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(243,238,225,0.14); }
+  .explain-box { margin-top: 16px; padding: 12px 14px; border-radius: 8px; background: rgba(201,162,39,0.08); border: 1px solid rgba(201,162,39,0.25); }
+  .explain-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; color: #C9A227; margin-bottom: 5px; text-transform: uppercase; }
+  .explain-text { font-size: 13px; color: #EDE8D9; line-height: 1.5; }
+  .footer { padding: 12px 20px; border-top: 1px solid rgba(201,162,39,0.14); font-size: 10.5px; color: #6B6754; text-align: center; line-height: 1.5; }
+  .hidden { display: none !important; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="header">
+    <div class="header-left">
+      <div class="seal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.75"><path d="M12 3v18M5 7l-3 6a3 3 0 0 0 6 0l-3-6zM19 7l-3 6a3 3 0 0 0 6 0l-3-6zM4 7h16M8 3h8"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">JUDICIARY PRIME</div>
+        <div class="brand-sub">BSA 2023 &middot; Test 02 (हिंदी)</div>
+      </div>
+    </div>
+    <div class="timer-box hidden" id="timerBox">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span id="timerText">45:00</span>
+    </div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div class="screen" id="startScreen">
+    <div class="paper-card">
+      <div class="eyebrow">प्रवेश पत्र &middot; न्यायिक एवं PCS-J प्रारंभिक परीक्षा</div>
+      <h1 class="title">भारतीय साक्ष्य अधिनियम, 2023 — टेस्ट 02 (हिंदी) — Test 02</h1>
+      <p class="subtitle">BSA, 2023 की धारा 1–2, 3–9, 12–13, 22–24, 26, 39–45, 47–49, और 54–55 पर आधारित 50 वस्तुनिष्ठ प्रश्न।</p>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-label">प्रश्न</div><div class="meta-value">50</div></div>
+        <div class="meta-item"><div class="meta-label">समय</div><div class="meta-value">45 मिनट</div></div>
+        <div class="meta-item"><div class="meta-label">अंकन</div><div class="meta-value">+1, negative नहीं</div></div>
+        <div class="meta-item"><div class="meta-label">अधिनियम</div><div class="meta-value">BSA, 2023</div></div>
+      </div>
+      <label class="field-label" for="nameInput">आपका पूरा नाम</label>
+      <input class="name-input" id="nameInput" type="text" placeholder="अपना पूरा नाम लिखें" />
+      <div class="error-note" id="nameError">शुरू करने के लिए कृपया अपना नाम दर्ज करें।</div>
+      <button class="btn-primary" id="startBtn">Test शुरू करें →</button>
+      <div class="start-note">Test शुरू करते ही timer चालू हो जाएगा। 00:00 पर test अपने आप submit हो जाएगा।</div>
+    </div>
+  </div>
+
+  <!-- TEST SCREEN -->
+  <div class="screen hidden" id="testScreen">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:2%"></div></div>
+      <div class="progress-label" id="progressLabel">Q1 / 50 &middot; 0 answered</div>
+    </div>
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="subject-tag" id="subjectTag"></span>
+        <button class="flag-btn" id="flagBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          <span id="flagLabel">Review के लिए Flag करें</span>
+        </button>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="options-col" id="optionsCol"></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn">&larr; पिछला</button>
+      <button class="nav-btn-primary hidden" id="nextBtn">अगला &rarr;</button>
+      <button class="submit-btn hidden" id="submitBtn">Test Submit करें</button>
+    </div>
+    <div class="dots-row" id="dotsRow"></div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="screen hidden" id="resultScreen">
+    <div class="paper-card">
+      <div class="eyebrow">परिणाम &middot; BSA 2023 टेस्ट 02 (हिंदी)</div>
+      <div class="student-name" id="studentNameLabel"></div>
+      <div class="score-row">
+        <div class="score-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.75"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>
+          <div class="score-big"><span id="scoreVal">0</span><span class="score-of">/50</span></div>
+        </div>
+        <div>
+          <div class="verdict" id="verdictText"></div>
+          <div class="score-stats-row">
+            <div><div class="score-stat-value" style="color:#4C7A5A" id="correctVal">0</div><div class="score-stat-label">Correct</div></div>
+            <div><div class="score-stat-value" style="color:#A13D3D" id="wrongVal">0</div><div class="score-stat-label">Wrong</div></div>
+            <div><div class="score-stat-value" style="color:#8A8471" id="unattVal">0</div><div class="score-stat-label">Unattempted</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="review-grid" id="reviewGrid"></div>
+      <div class="sent-note" id="sentNote">✓ Result WhatsApp में खुल गया है — भेजने के लिए send दबाएं।</div>
+      <a class="btn-whatsapp" id="whatsappBtn" href="#" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="#06390F"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2z"/></svg>
+        Result Judiciary Prime को भेजें
+      </a>
+      <button class="btn-primary" id="retakeBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F3EEE1" stroke-width="2.25"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+        दोबारा Test दें
+      </button>
+    </div>
+  </div>
+
+  <!-- REVIEW DETAIL SCREEN -->
+  <div class="screen hidden" id="reviewScreen">
+    <button class="back-btn" id="backBtn">&larr; Scorecard पर वापस जाएं</button>
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="subject-tag" id="rSubjectTag"></span>
+        <span class="review-q-num" id="rQNum"></span>
+      </div>
+      <div class="q-text" id="rQText"></div>
+      <div class="options-col" id="rOptionsCol"></div>
+      <div class="explain-box">
+        <div class="explain-label">कारण</div>
+        <div class="explain-text" id="rExplainText"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Judiciary Prime &middot; BSA, 2023 (1 जुलाई 2024 से प्रभावी) &middot; कृपया धारा संख्याओं की पुष्टि वर्तमान bare act से स्वयं कर लें।</div>
+</div>
+
+<script>
+const RESULT_WHATSAPP_NUMBER = "917466900302";
+
+const QUESTIONS = [
+  {
+    "subject": "BSA §1-2",
+    "q": "BSA, 2023 का प्रारंभिक अध्याय (धारा 1–2) किन दो विषयों को कवर करता है?",
+    "options": [
+      "संक्षिप्त नाम, प्रयोग, प्रारंभ और परिभाषाएं",
+      "तथ्यों की सुसंगति और Res gestae",
+      "स्वीकृतियां और संस्वीकृतियां",
+      "सबूत का भार और विबंधन (Estoppel)"
+    ],
+    "answer": 0,
+    "explain": "अध्याय I (धारा 1–2) 'प्रारंभिक' है — धारा 1 संक्षिप्त नाम, प्रयोग और प्रारंभ को कवर करती है, और धारा 2 में परिभाषाएं दी गई हैं।"
+  },
+  {
+    "subject": "BSA §2",
+    "q": "BSA, 2023 की धारा 2 का शीर्षक क्या है?",
+    "options": [
+      "व्याख्या खंड",
+      "परिभाषाएं",
+      "संक्षिप्त नाम",
+      "प्रस्तावना"
+    ],
+    "answer": 1,
+    "explain": "धारा 2 का शीर्षक 'परिभाषाएं' है और इसमें Court, तथ्य, सुसंगत, दस्तावेज़, साक्ष्य, साबित, अप्रमाणित और उपधारणा जैसे मुख्य शब्द परिभाषित हैं।"
+  },
+  {
+    "subject": "BSA §2",
+    "q": "धारा 2 के अंतर्गत, जब भी अधिनियम यह निर्देश देता है कि न्यायालय किसी तथ्य को 'उपधारित करेगा' (shall presume), तो न्यायालय:",
+    "options": [
+      "उसे साबित मान सकता है या आगे प्रमाण मांग सकता है",
+      "उसे साबित मानेगा, जब तक कि वह अप्रमाणित न कर दिया जाए",
+      "उस तथ्य की पूरी तरह अनदेखी करेगा",
+      "इसे केवल दीवानी मामलों में उपधारित कर सकता है"
+    ],
+    "answer": 1,
+    "explain": "धारा 2 की 'shall presume' की परिभाषा के अनुसार न्यायालय को उस तथ्य को साबित मानना होगा, जब तक कि वह अप्रमाणित न कर दिया जाए।"
+  },
+  {
+    "subject": "BSA §3",
+    "q": "BSA, 2023 की धारा 3, 'विवाद्यक तथ्यों और सुसंगत तथ्यों के बारे में साक्ष्य दिया जा सकेगा,' किस बात को स्थापित करती है?",
+    "options": [
+      "न्यायालय के समक्ष कौन-सा साक्ष्य प्रस्तुत किया जा सकता है, इसका सामान्य नियम",
+      "मृत्युकालिक कथन (dying declaration) का नियम",
+      "विशेषज्ञ राय का नियम",
+      "इलेक्ट्रॉनिक अभिलेखों की ग्राह्यता का नियम"
+    ],
+    "answer": 0,
+    "explain": "धारा 3 यह मूल नियम स्थापित करती है कि साक्ष्य केवल विवाद्यक तथ्यों और अधिनियम द्वारा सुसंगत घोषित तथ्यों के बारे में दिया जा सकता है, अन्य किसी बात का नहीं।"
+  },
+  {
+    "subject": "BSA §4",
+    "q": "विवाद्यक तथ्य के साथ एक ही संव्यवहार का भाग बनने वाले तथ्य — यानी res gestae का सिद्धांत — किस धारा के अंतर्गत सुसंगत बनाए गए हैं?",
+    "options": [
+      "धारा 6",
+      "धारा 4",
+      "धारा 8",
+      "धारा 9"
+    ],
+    "answer": 1,
+    "explain": "धारा 4, 'एक ही संव्यवहार का भाग बनने वाले तथ्यों की सुसंगति,' res gestae के सिद्धांत को समाहित करती है।"
+  },
+  {
+    "subject": "BSA §5",
+    "q": "BSA, 2023 की धारा 5 किन तथ्यों को सुसंगत बनाती है?",
+    "options": [
+      "किसी कार्य का हेतु (motive)",
+      "विवाद्यक तथ्य या सुसंगत तथ्य का अवसर, कारण या प्रभाव",
+      "विशेषज्ञ की राय",
+      "किसी पक्षकार का चरित्र"
+    ],
+    "answer": 1,
+    "explain": "धारा 5 का शीर्षक है 'तथ्य जो विवाद्यक तथ्यों या सुसंगत तथ्यों का अवसर, कारण या प्रभाव हैं।'"
+  },
+  {
+    "subject": "BSA §5",
+    "q": "धारा 5 के अंतर्गत, वह तथ्य जो विवाद्यक तथ्य के घटित होने के समय की 'स्थिति' (state of things) को दर्शाता है, सुसंगत माना जाता है, बशर्ते कि वह:",
+    "options": [
+      "उसके घटित होने या संव्यवहार का अवसर प्रदान करता हो",
+      "विवाद्यक तथ्य से समय की दृष्टि से पूरी तरह असंबंधित हो",
+      "विचारण प्रारंभ होने के बाद ही घटित हुआ हो",
+      "पुलिस को कभी प्रकट न किया गया हो"
+    ],
+    "answer": 0,
+    "explain": "धारा 5 उन तथ्यों को सुसंगत बनाती है जो विवाद्यक तथ्यों के घटित होने की स्थिति (state of things) को दर्शाते हैं, या जिन्होंने उनके घटित होने का अवसर प्रदान किया।"
+  },
+  {
+    "subject": "BSA §6",
+    "q": "हेतु (motive), पूर्वतैयारी (preparation), और पूर्व या पश्चातवर्ती आचरण किस धारा के अंतर्गत आते हैं?",
+    "options": [
+      "धारा 4",
+      "धारा 5",
+      "धारा 6",
+      "धारा 7"
+    ],
+    "answer": 2,
+    "explain": "धारा 6 का शीर्षक है 'हेतु, पूर्वतैयारी और पूर्व या पश्चातवर्ती आचरण।'"
+  },
+  {
+    "subject": "BSA §6",
+    "q": "धारा 6 के अंतर्गत, किसी पक्षकार या उसके अभिकर्ता (agent) का पूर्व या पश्चातवर्ती आचरण, यदि वह किसी विवाद्यक तथ्य को प्रभावित करता है या उससे प्रभावित होता है, तो वह:",
+    "options": [
+      "सदैव असुसंगत होता है",
+      "धारा में दी गई शर्तों के अधीन सुसंगत होता है",
+      "केवल दीवानी वादों में सुसंगत होता है",
+      "केवल शपथ के अधीन दिए गए कथन में सुसंगत होता है"
+    ],
+    "answer": 1,
+    "explain": "धारा 6 ऐसे आचरण को धारा में दी गई शर्तों के अधीन सुसंगत बनाती है (जैसे कार्य के साथ किए गए और उसकी व्याख्या करने वाले कथन)।"
+  },
+  {
+    "subject": "BSA §7",
+    "q": "विवाद्यक तथ्य या सुसंगत तथ्य को समझाने या प्रस्तुत करने के लिए आवश्यक तथ्य किस धारा के अंतर्गत सुसंगत बनाए गए हैं?",
+    "options": [
+      "धारा 6",
+      "धारा 7",
+      "धारा 8",
+      "धारा 9"
+    ],
+    "answer": 1,
+    "explain": "धारा 7 का शीर्षक है 'विवाद्यक तथ्य या सुसंगत तथ्यों को समझाने या प्रस्तुत करने के लिए आवश्यक तथ्य।'"
+  },
+  {
+    "subject": "BSA §7",
+    "q": "धारा 7 के अंतर्गत, सुसंगत तथ्य को समझाने या प्रस्तुत करने के लिए आवश्यक तथ्यों में शामिल हो सकता है:",
+    "options": [
+      "किसी वस्तु या व्यक्ति की पहचान स्थापित करने वाला तथ्य, जिसकी पहचान सुसंगत हो",
+      "ऐसे तथ्य जो पहचान से कभी संबंधित न हों",
+      "ऐसे तथ्य जो कभी विवाद्यक तथ्य का समर्थन न कर सकें",
+      "केवल दस्तावेज़ी तथ्य"
+    ],
+    "answer": 0,
+    "explain": "धारा 7 उन तथ्यों को कवर करती है जो, अन्य बातों के साथ, किसी वस्तु या व्यक्ति की पहचान स्थापित करते हैं जिसकी पहचान सुसंगत है, या किसी तथ्य के घटित होने के समय या स्थान को निर्धारित करते हैं।"
+  },
+  {
+    "subject": "BSA §8",
+    "q": "BSA, 2023 की धारा 8 किस बात से संबंधित है?",
+    "options": [
+      "पुलिस के समक्ष संस्वीकृति",
+      "षड्यंत्रकर्ता द्वारा सामान्य योजना के संदर्भ में कहा या किया गया",
+      "विशेषज्ञों की राय",
+      "चरित्र साक्ष्य"
+    ],
+    "answer": 1,
+    "explain": "धारा 8 का शीर्षक है 'षड्यंत्रकर्ता द्वारा सामान्य योजना के संदर्भ में कहा या किया गया।'"
+  },
+  {
+    "subject": "BSA §8",
+    "q": "धारा 8 के अंतर्गत, सामान्य योजना (common design) के संदर्भ में एक षड्यंत्रकर्ता के कथन या कार्य का उपयोग षड्यंत्र के अस्तित्व को साबित करने के लिए किसके विरुद्ध किया जा सकता है?",
+    "options": [
+      "केवल उस एक षड्यंत्रकर्ता के विरुद्ध",
+      "धारा की शर्तों के अधीन, षड्यंत्र में भागी माने जाने वाले प्रत्येक व्यक्ति के विरुद्ध",
+      "किसी के भी विरुद्ध नहीं, क्योंकि यह सदैव अग्राह्य श्रुत साक्ष्य (hearsay) है",
+      "केवल पहले आरोपित व्यक्ति के विरुद्ध"
+    ],
+    "answer": 1,
+    "explain": "धारा 8 ऐसे कथनों या कार्यों को, जो सामान्य योजना के संदर्भ में किए गए हों, धारा की शर्तों के अधीन षड्यंत्र में भागी माने जाने वाले प्रत्येक व्यक्ति के विरुद्ध साक्ष्य के रूप में उपयोग करने की अनुमति देती है।"
+  },
+  {
+    "subject": "BSA §9",
+    "q": "'जब अन्यथा असुसंगत तथ्य सुसंगत हो जाते हैं' किस धारा का शीर्षक है?",
+    "options": [
+      "धारा 7",
+      "धारा 8",
+      "धारा 9",
+      "धारा 10"
+    ],
+    "answer": 2,
+    "explain": "धारा 9 का शीर्षक 'जब अन्यथा असुसंगत तथ्य सुसंगत हो जाते हैं' है।"
+  },
+  {
+    "subject": "BSA §9",
+    "q": "धारा 9 के अंतर्गत, अन्यथा असुसंगत तथ्य सुसंगत हो जाते हैं यदि वे किसी विवाद्यक तथ्य या सुसंगत तथ्य के साथ असंगत हों, या यदि वे स्वयं या अन्य तथ्यों के साथ मिलकर, ऐसे तथ्य के अस्तित्व को:",
+    "options": [
+      "निर्धारित करना असंभव बना दें",
+      "अत्यधिक संभाव्य या असंभाव्य बना दें",
+      "विधितः असुसंगत बना दें",
+      "विशेषाधिकार के अधीन बना दें"
+    ],
+    "answer": 1,
+    "explain": "धारा 9 ऐसे तथ्यों को सुसंगत बनाती है यदि वे विवाद्यक तथ्य या सुसंगत तथ्य के साथ असंगत हों, या उसे अत्यधिक संभाव्य या असंभाव्य बना दें।"
+  },
+  {
+    "subject": "BSA §12",
+    "q": "मन:स्थिति (state of mind), या शरीर या शारीरिक अनुभूति की स्थिति दर्शाने वाले तथ्य किस धारा के अंतर्गत सुसंगत बनाए गए हैं?",
+    "options": [
+      "धारा 11",
+      "धारा 12",
+      "धारा 13",
+      "धारा 14"
+    ],
+    "answer": 1,
+    "explain": "धारा 12 का शीर्षक है 'मन:स्थिति, या शरीर या शारीरिक अनुभूति की स्थिति दर्शाने वाले तथ्य।'"
+  },
+  {
+    "subject": "BSA §12",
+    "q": "धारा 12 के अंतर्गत, जैसा कि धारा में दृष्टांतित है, 'मन:स्थिति' में शामिल हैं:",
+    "options": [
+      "आशय, ज्ञान, सद्भावना और उपेक्षा (negligence)",
+      "केवल शारीरिक स्वास्थ्य",
+      "केवल वित्तीय शोधन क्षमता",
+      "केवल साक्षरता"
+    ],
+    "answer": 0,
+    "explain": "धारा 12 में आशय, ज्ञान, सद्भावना, उपेक्षा और ऐसी अन्य मानसिक स्थितियां शामिल हैं, जब वे किसी विवाद्यक तथ्य से सुसंगत हों।"
+  },
+  {
+    "subject": "BSA §13",
+    "q": "यह प्रश्न कि कोई कार्य दुर्घटनावश था या आशयपूर्वक, इससे संबंधित तथ्य किस धारा के अंतर्गत आते हैं?",
+    "options": [
+      "धारा 12",
+      "धारा 13",
+      "धारा 14",
+      "धारा 6"
+    ],
+    "answer": 1,
+    "explain": "धारा 13 का शीर्षक है 'तथ्य जो इस प्रश्न पर प्रभाव डालते हैं कि कार्य दुर्घटनावश था या आशयपूर्वक।'"
+  },
+  {
+    "subject": "BSA §13",
+    "q": "धारा 13 का प्रयोग सामान्यतः किस बचाव-पक्ष का खंडन करने के लिए किया जाता है?",
+    "options": [
+      "आलिबी (alibi)",
+      "दुर्घटना या आशय के अभाव का बचाव, समान कृत्यों की श्रृंखला दिखाकर",
+      "केवल विक्षिप्तता (insanity)",
+      "अवयस्कता (minority)"
+    ],
+    "answer": 1,
+    "explain": "धारा 13 समान घटनाओं की श्रृंखला के साक्ष्य की अनुमति देती है, यह दिखाने के लिए कि प्रश्नगत कार्य दुर्घटनावश या अनाशयपूर्वक नहीं था।"
+  },
+  {
+    "subject": "BSA §22",
+    "q": "BSA, 2023 की धारा 22 के अंतर्गत, कोई संस्वीकृति दांडिक कार्यवाही में असुसंगत हो जाती है जब वह किसके कारण की गई हो?",
+    "options": [
+      "विधिक सलाह",
+      "प्रलोभन, धमकी, प्रपीड़न या वचन, प्राधिकार में स्थित व्यक्ति द्वारा",
+      "विधिसम्मत गिरफ्तारी",
+      "अभियोग सौदेबाजी (plea bargain)"
+    ],
+    "answer": 1,
+    "explain": "धारा 22, 'प्रलोभन, धमकी, प्रपीड़न या वचन से कारित संस्वीकृति, दांडिक कार्यवाही में जब असुसंगत हो,' इस प्रकार प्राप्त संस्वीकृतियों को अपवर्जित करती है।"
+  },
+  {
+    "subject": "BSA §23",
+    "q": "पुलिस अधिकारी के समक्ष की गई संस्वीकृति किस धारा के अंतर्गत आती है, और क्या वह अभियुक्त के विरुद्ध साबित की जा सकती है?",
+    "options": [
+      "धारा 22; साबित की जा सकती है",
+      "धारा 23; अभियुक्त के विरुद्ध साबित नहीं की जाएगी",
+      "धारा 24; केवल वकील की उपस्थिति में साबित की जा सकती है",
+      "धारा 26; पूर्णतः असुसंगत"
+    ],
+    "answer": 1,
+    "explain": "धारा 23(1) यह उपबंध करती है कि पुलिस अधिकारी के समक्ष की गई कोई संस्वीकृति किसी अपराध के अभियुक्त व्यक्ति के विरुद्ध साबित नहीं की जाएगी — यह एक पूर्ण प्रतिषेध है, केवल उपधारणा नहीं।"
+  },
+  {
+    "subject": "BSA §24",
+    "q": "जब दो या अधिक व्यक्तियों पर एक ही अपराध के लिए संयुक्त रूप से विचारण हो और उनमें से एक व्यक्ति ऐसी संस्वीकृति करे जिसमें सह-अभियुक्त को फंसाया गया हो, तो धारा 24 न्यायालय को इसकी अनुमति देती है कि वह उस संस्वीकृति पर विचार करे:",
+    "options": [
+      "पूर्णतः उपेक्षा करते हुए",
+      "सह-अभियुक्त के विरुद्ध भी, संस्वीकृति करने वाले के साथ-साथ",
+      "केवल संस्वीकृति करने वाले के वकील के विरुद्ध",
+      "सह-अभियुक्त को स्वतः दोषमुक्त करते हुए"
+    ],
+    "answer": 1,
+    "explain": "धारा 24 न्यायालय को यह अनुमति देती है कि साबित हुई संस्वीकृति को उस सह-अभियुक्त के विरुद्ध भी विचार में लिया जाए जिसका एक ही अपराध के लिए संयुक्त विचारण हो रहा हो।"
+  },
+  {
+    "subject": "BSA §24",
+    "q": "धारा 24 अतिरिक्त रूप से संयुक्त विचारण की परिकल्पना में किस सह-अभियुक्त को शामिल मानती है?",
+    "options": [
+      "जो अनुमोदक (approver) बन गया हो",
+      "जो फरार हो गया हो या BNSS के अंतर्गत उद्घोषणा का पालन करने में असफल रहा हो",
+      "जो अवयस्क हो",
+      "जो सरकारी सेवक हो"
+    ],
+    "answer": 1,
+    "explain": "धारा 24 संयुक्त विचारण के सिद्धांत को उस सह-अभियुक्त तक विस्तारित करती है जो BNSS, 2023 की धारा 84 के अंतर्गत जारी उद्घोषणा का पालन करने में फरार हो गया हो या असफल रहा हो।"
+  },
+  {
+    "subject": "BSA §26",
+    "q": "ऐसे व्यक्ति द्वारा किए गए सुसंगत तथ्य के कथन, जो मर गया हो, नहीं मिल सकता हो, या साक्ष्य नहीं दे सकता हो, किस धारा के अंतर्गत आते हैं?",
+    "options": [
+      "धारा 22",
+      "धारा 24",
+      "धारा 26",
+      "धारा 39"
+    ],
+    "answer": 2,
+    "explain": "धारा 26 'उन मामलों को कवर करती है जिनमें मृत या न मिल सकने वाले आदि व्यक्ति द्वारा सुसंगत तथ्य का कथन सुसंगत होता है।'"
+  },
+  {
+    "subject": "BSA §26(a)",
+    "q": "धारा 26 के अंतर्गत, किसी व्यक्ति की मृत्यु के कारण या उस संव्यवहार की परिस्थितियों के बारे में कथन, जिसके परिणामस्वरूप उसकी मृत्यु हुई, किस नाम से जाने जाते हैं?",
+    "options": [
+      "स्वीकृतियां (admissions)",
+      "मृत्युकालिक कथन (dying declaration), खंड (a) के अंतर्गत",
+      "विशेषज्ञ राय",
+      "न्यायिक संस्वीकृति"
+    ],
+    "answer": 1,
+    "explain": "धारा 26(a) मृत्युकालिक कथनों को कवर करती है — मृत्यु के कारण या मृत्यु में परिणत संव्यवहार की परिस्थितियों के बारे में कथन।"
+  },
+  {
+    "subject": "BSA §26(a)",
+    "q": "मृत्युकालिक कथन धारा 26(a) के अंतर्गत किस बात से निरपेक्ष होकर सुसंगत है?",
+    "options": [
+      "क्या अभियुक्त का नाम उसमें लिया गया है",
+      "उस कार्यवाही की प्रकृति, जिसमें मृतक की मृत्यु का कारण प्रश्नगत हो",
+      "क्या मृतक का आपराधिक रिकॉर्ड था",
+      "क्या कथन शपथ के अधीन दर्ज किया गया था"
+    ],
+    "answer": 1,
+    "explain": "मृत्युकालिक कथन उस कार्यवाही की प्रकृति से निरपेक्ष होकर सुसंगत हैं जिसमें मृतक की मृत्यु का कारण प्रश्नगत होता है।"
+  },
+  {
+    "subject": "BSA §26",
+    "q": "मृत्युकालिक कथनों के अलावा, धारा 26 उपलब्ध न होने वाले व्यक्तियों द्वारा किए गए ऐसे कथनों को भी कवर करती है जो:",
+    "options": [
+      "सामान्य कारबार या कर्तव्य के अनुक्रम में किए गए हों, या धारा में सूचीबद्ध अन्य विशेष श्रेणियों में आते हों",
+      "केवल वसीयतों में किए गए हों",
+      "केवल न्यायिक संस्वीकृति के रूप में हों",
+      "केवल विशेषज्ञ रिपोर्टों में हों"
+    ],
+    "answer": 0,
+    "explain": "धारा 26 मृत्युकालिक कथनों के अलावा कई श्रेणियां सूचीबद्ध करती है, जिनमें सामान्य कारबार में किए गए कथन, कथन करने वाले के हित के विरुद्ध कथन, और अन्य शामिल हैं।"
+  },
+  {
+    "subject": "BSA §39",
+    "q": "साक्ष्य के रूप में 'विशेषज्ञों की राय' किस धारा के अंतर्गत आती है?",
+    "options": [
+      "धारा 38",
+      "धारा 39",
+      "धारा 40",
+      "धारा 45"
+    ],
+    "answer": 1,
+    "explain": "धारा 39 का शीर्षक है 'विशेषज्ञों की राय।'"
+  },
+  {
+    "subject": "BSA §39",
+    "q": "धारा 39 के अंतर्गत विशेषज्ञ राय किन बिंदुओं पर सुसंगत है?",
+    "options": [
+      "विदेशी विधि, विज्ञान, कला, और हस्तलेख या अंगुली छाप की पहचान, अन्य बातों के साथ",
+      "केवल विदेशी विधि",
+      "केवल चिकित्सा विज्ञान",
+      "केवल अंगुली छाप"
+    ],
+    "answer": 0,
+    "explain": "धारा 39 विशेषज्ञ राय को विदेशी विधि, विज्ञान, कला, और हस्तलेख या अंगुली/अंगूठे की छाप की पहचान जैसे विशिष्ट विषयों पर सुसंगत बनाती है।"
+  },
+  {
+    "subject": "BSA §40",
+    "q": "BSA, 2023 की धारा 40 किस बात से संबंधित है?",
+    "options": [
+      "राय के आधार, जब सुसंगत हों",
+      "विशेषज्ञों की राय पर प्रभाव डालने वाले तथ्य",
+      "हस्तलेख के संबंध में राय",
+      "संबंध के संबंध में राय"
+    ],
+    "answer": 1,
+    "explain": "धारा 40 का शीर्षक है 'विशेषज्ञों की राय पर प्रभाव डालने वाले तथ्य।'"
+  },
+  {
+    "subject": "BSA §40",
+    "q": "धारा 40 के अंतर्गत, विशेषज्ञ की राय पर प्रभाव डालने वाले तथ्यों में शामिल हैं वे तथ्य जो:",
+    "options": [
+      "विशेषज्ञ की राय का समर्थन करते हों या उससे असंगत हों, यदि अन्यथा सुसंगत हों",
+      "केवल न्यायाधीश को ज्ञात हों",
+      "सदैव विशेषज्ञ का खंडन करते हों",
+      "केवल विशेषज्ञ की शैक्षणिक योग्यता से संबंधित हों"
+    ],
+    "answer": 0,
+    "explain": "धारा 40 उन तथ्यों को सुसंगत बनाती है जो विशेषज्ञों की राय, जब वह स्वयं सुसंगत हो, का समर्थन करते हैं या उससे असंगत होते हैं।"
+  },
+  {
+    "subject": "BSA §41",
+    "q": "हस्तलेख और हस्ताक्षर के संबंध में राय किस धारा के अंतर्गत आती है, और (हस्तलेख विशेषज्ञ के अलावा) किसकी राय सुसंगत हो सकती है?",
+    "options": [
+      "धारा 39; केवल फोरेंसिक विशेषज्ञ",
+      "धारा 41; वह व्यक्ति भी जो प्रश्नगत हस्तलेख से परिचित हो",
+      "धारा 45; केवल स्वयं न्यायालय",
+      "धारा 44; केवल संबंधी"
+    ],
+    "answer": 1,
+    "explain": "धारा 41, 'हस्तलेख और हस्ताक्षर के संबंध में राय, जब सुसंगत हो,' उस व्यक्ति की राय की भी अनुमति देती है जो प्रश्नगत हस्तलेख से परिचित हो।"
+  },
+  {
+    "subject": "BSA §42",
+    "q": "सामान्य प्रथा या अधिकार के अस्तित्व के संबंध में राय किस धारा के अंतर्गत सुसंगत बनाई गई है?",
+    "options": [
+      "धारा 41",
+      "धारा 42",
+      "धारा 43",
+      "धारा 44"
+    ],
+    "answer": 1,
+    "explain": "धारा 42 का शीर्षक है 'सामान्य प्रथा या अधिकार के अस्तित्व के संबंध में राय, जब सुसंगत हो।'"
+  },
+  {
+    "subject": "BSA §42",
+    "q": "धारा 42 के अंतर्गत, सामान्य प्रथा या अधिकार के संबंध में राय उन व्यक्तियों द्वारा दी जा सकती है जो:",
+    "options": [
+      "केवल सरकारी अधिकारी हों",
+      "यदि वह अस्तित्व में होती तो संभवतः उसके अस्तित्व को जानते",
+      "उस प्रथा से कभी परिचित न रहे हों",
+      "किसी भिन्न समुदाय से संबंधित हों"
+    ],
+    "answer": 1,
+    "explain": "धारा 42 उन व्यक्तियों की राय की अनुमति देती है जो, यदि वह प्रथा या अधिकार अस्तित्व में होता, तो संभवतः उसके अस्तित्व को जानते।"
+  },
+  {
+    "subject": "BSA §43",
+    "q": "BSA, 2023 की धारा 43 किसके संबंध में राय से संबंधित है?",
+    "options": [
+      "हस्तलेख",
+      "रूढ़ि, सिद्धांत आदि",
+      "संबंध",
+      "सामान्य प्रथा या अधिकार"
+    ],
+    "answer": 1,
+    "explain": "धारा 43 का शीर्षक है 'रूढ़ि, सिद्धांत आदि के संबंध में राय, जब सुसंगत हो।'"
+  },
+  {
+    "subject": "BSA §44",
+    "q": "संबंध के बारे में राय — जैसे कि क्या दो व्यक्ति संबंधित हैं — किस धारा के अंतर्गत आती है, और किसकी राय पर विचार किया जा सकता है?",
+    "options": [
+      "धारा 44; वह व्यक्ति जिसे, परिवार के सदस्य के रूप में या अन्यथा, विषय के बारे में विशेष जानकारी के साधन प्राप्त हों",
+      "धारा 45; केवल DNA विशेषज्ञ",
+      "धारा 39; केवल चिकित्सक",
+      "धारा 41; केवल हस्तलेख विशेषज्ञ"
+    ],
+    "answer": 0,
+    "explain": "धारा 44 उस व्यक्ति की राय की अनुमति देती है जिसे विशेष जानकारी के साधन प्राप्त हों, जैसे परिवार का सदस्य, व्यक्तियों के बीच संबंध के बारे में।"
+  },
+  {
+    "subject": "BSA §44",
+    "q": "धारा 44 सामान्यतः किन प्रश्नों में सुसंगत हो जाती है?",
+    "options": [
+      "विवाह, वैधता (legitimacy), और वंशावली (pedigree)",
+      "केवल संविदा विवाद",
+      "केवल संपत्ति सीमा विवाद",
+      "केवल कर निर्धारण"
+    ],
+    "answer": 0,
+    "explain": "धारा 44 के अंतर्गत संबंध पर राय सामान्यतः विवाह, वैधता और वंशावली जैसे मामलों में उठती है।"
+  },
+  {
+    "subject": "BSA §45",
+    "q": "धारा 45, 'राय के आधार, जब सुसंगत हों,' किस बात की अनुमति देती है?",
+    "options": [
+      "विशेषज्ञ की राय को पूर्णतः अपवर्जित करने की",
+      "उन तथ्यों और कारणों को भी साबित करने की, जिन पर विशेषज्ञ की राय आधारित है",
+      "केवल विशेषज्ञ के निष्कर्ष को, तर्क को कभी नहीं",
+      "केवल मौखिक राय को, कभी लिखित रिपोर्ट को नहीं"
+    ],
+    "answer": 1,
+    "explain": "धारा 45 उन आधारों को साबित करने की अनुमति देती है जिन पर विशेषज्ञ की (या अन्य सुसंगत) राय आधारित है, राय के साथ-साथ।"
+  },
+  {
+    "subject": "BSA §47",
+    "q": "'दांडिक मामलों में अभियुक्त का पूर्व सच्चरित्र सुसंगत होना' किस धारा का शीर्षक है?",
+    "options": [
+      "धारा 46",
+      "धारा 47",
+      "धारा 48",
+      "धारा 49"
+    ],
+    "answer": 1,
+    "explain": "धारा 47 का शीर्षक है 'दांडिक मामलों में अभियुक्त का पूर्व सच्चरित्र सुसंगत होना।'"
+  },
+  {
+    "subject": "BSA §47",
+    "q": "धारा 47 के अंतर्गत, अभियुक्त व्यक्ति का पूर्व सच्चरित्र:",
+    "options": [
+      "सभी मामलों में असुसंगत है",
+      "दांडिक कार्यवाहियों में सुसंगत है",
+      "केवल दीवानी कार्यवाहियों में सुसंगत है",
+      "केवल दंडादेश के लिए सुसंगत है"
+    ],
+    "answer": 1,
+    "explain": "धारा 47 अभियुक्त व्यक्ति के पूर्व सच्चरित्र को दांडिक कार्यवाहियों में सुसंगत बनाती है।"
+  },
+  {
+    "subject": "BSA §48",
+    "q": "धारा 48 के अंतर्गत, कुछ लैंगिक अपराधों के अभियोजन में, पीड़िता के चरित्र या पूर्व लैंगिक अनुभव के साक्ष्य को:",
+    "options": [
+      "सदैव सम्मति के प्रश्न पर सुसंगत माना जाता है",
+      "सम्मति या उसकी गुणवत्ता के प्रश्न पर सुसंगत नहीं माना जाता",
+      "केवल तभी सुसंगत माना जाता है जब पीड़िता वयस्क हो",
+      "आरोप विरचन (framing of charge) से पहले लाया जाना आवश्यक है"
+    ],
+    "answer": 1,
+    "explain": "धारा 48 पीड़िता के चरित्र या किसी भी व्यक्ति के साथ पूर्व लैंगिक अनुभव के साक्ष्य को सम्मति या उसकी गुणवत्ता के प्रश्न पर असुसंगत करती है।"
+  },
+  {
+    "subject": "BSA §48",
+    "q": "धारा 48 विशेष रूप से BNS के अंतर्गत किन अपराधों से संबंधित विचारणों पर लागू होती है?",
+    "options": [
+      "चोरी",
+      "लैंगिक अपराध जैसे बलात्संग, जहां सम्मति प्रश्नगत हो",
+      "कूटरचना (forgery)",
+      "मानहानि"
+    ],
+    "answer": 1,
+    "explain": "धारा 48 विशेष रूप से भारतीय न्याय संहिता, 2023 के अंतर्गत लैंगिक अपराधों (जैसे बलात्संग या उसका प्रयत्न) के अभियोजनों पर लागू होती है।"
+  },
+  {
+    "subject": "BSA §49",
+    "q": "अभियुक्त का पूर्व दुश्चरित्र (bad character), धारा 49 के अंतर्गत, नियम के रूप में:",
+    "options": [
+      "सदैव सुसंगत है",
+      "सुसंगत नहीं है, प्रत्युत्तर में छोड़कर — जैसे कि जब सच्चरित्र साक्ष्य में लाया जा चुका हो",
+      "केवल हत्या के मामलों में सुसंगत है",
+      "केवल तभी सुसंगत है जब अभियुक्त स्वीकार करे"
+    ],
+    "answer": 1,
+    "explain": "धारा 49, 'पूर्व दुश्चरित्र सुसंगत नहीं, प्रत्युत्तर में छोड़कर,' दुश्चरित्र के साक्ष्य को प्रतिबंधित करती है जब तक अभियुक्त ने सच्चरित्र का साक्ष्य न दिया हो।"
+  },
+  {
+    "subject": "BSA §49",
+    "q": "धारा 49 के स्पष्टीकरण के अंतर्गत, पूर्व दोषसिद्धि किस बात के साक्ष्य के रूप में सुसंगत है?",
+    "options": [
+      "सच्चरित्र",
+      "दुश्चरित्र",
+      "केवल हेतु",
+      "कुछ नहीं; यह अग्राह्य है"
+    ],
+    "answer": 1,
+    "explain": "धारा 49 के स्पष्टीकरण के अनुसार पूर्व दोषसिद्धि दुश्चरित्र के साक्ष्य के रूप में सुसंगत है।"
+  },
+  {
+    "subject": "BSA §54",
+    "q": "'मौखिक साक्ष्य द्वारा तथ्यों का प्रमाण' किस धारा का शीर्षक है, जो BSA, 2023 के अध्याय IV का प्रारंभ करती है?",
+    "options": [
+      "धारा 51",
+      "धारा 53",
+      "धारा 54",
+      "धारा 56"
+    ],
+    "answer": 2,
+    "explain": "धारा 54, 'मौखिक साक्ष्य द्वारा तथ्यों का प्रमाण,' अध्याय IV, 'मौखिक साक्ष्य के बारे में,' का प्रारंभ करती है।"
+  },
+  {
+    "subject": "BSA §55",
+    "q": "यह नियम कि मौखिक साक्ष्य सभी मामलों में प्रत्यक्ष होना चाहिए — श्रुत साक्ष्य (hearsay) का नियम — किस धारा के अंतर्गत संहिताबद्ध है?",
+    "options": [
+      "धारा 54",
+      "धारा 55",
+      "धारा 56",
+      "धारा 94"
+    ],
+    "answer": 1,
+    "explain": "धारा 55, 'मौखिक साक्ष्य प्रत्यक्ष होना चाहिए,' भारतीय साक्ष्य विधि में श्रुत साक्ष्य विरोधी नियम को संहिताबद्ध करती है।"
+  },
+  {
+    "subject": "BSA §55",
+    "q": "धारा 55 के अंतर्गत, यदि मौखिक साक्ष्य किसी ऐसे तथ्य से संबंधित है जिसे देखा जा सकता हो, तो वह उस साक्षी का साक्ष्य होना चाहिए जो:",
+    "options": [
+      "उसके बारे में किसी अन्य से सुना हो",
+      "कहता है कि उसने स्वयं उसे देखा",
+      "पुलिस अधिकारी हो",
+      "हस्तलेख विशेषज्ञ हो"
+    ],
+    "answer": 1,
+    "explain": "धारा 55 यह अपेक्षा करती है कि देखे जा सकने योग्य किसी तथ्य का मौखिक साक्ष्य उस साक्षी से आना चाहिए जो कहता है कि उसने स्वयं उसे देखा।"
+  },
+  {
+    "subject": "BSA §1",
+    "q": "धारा 1(2) के अंतर्गत, BSA, 2023 किसी न्यायालय के समक्ष न्यायिक कार्यवाहियों पर, कोर्ट-मार्शल सहित, लागू होती है, लेकिन इस पर लागू नहीं होती:",
+    "options": [
+      "दांडिक विचारणों पर",
+      "किसी न्यायालय या अधिकारी के समक्ष प्रस्तुत शपथपत्रों (affidavits) पर, या माध्यस्थम् (arbitrator) के समक्ष कार्यवाहियों पर",
+      "दीवानी वादों पर",
+      "अपीलीय कार्यवाहियों पर"
+    ],
+    "answer": 1,
+    "explain": "धारा 1(2) किसी भी न्यायालय या अधिकारी के समक्ष प्रस्तुत शपथपत्रों को, और माध्यस्थम् के समक्ष कार्यवाहियों को, अधिनियम के प्रयोग से अपवर्जित करती है।"
+  },
+  {
+    "subject": "BSA §2",
+    "q": "धारा 2 के अंतर्गत, 'दस्तावेज़' की परिभाषा में स्पष्ट रूप से क्या शामिल है?",
+    "options": [
+      "केवल कागजी अभिलेख",
+      "इलेक्ट्रॉनिक अभिलेख",
+      "केवल सरकारी अभिलेख",
+      "केवल हस्तलिखित अभिलेख"
+    ],
+    "answer": 1,
+    "explain": "धारा 2 की 'दस्तावेज़' की परिभाषा में इलेक्ट्रॉनिक अभिलेख स्पष्ट रूप से शामिल हैं, जो साक्ष्य के प्रति BSA के आधुनिकीकृत दृष्टिकोण को दर्शाता है।"
+  },
+  {
+    "subject": "BSA §2",
+    "q": "धारा 2(1) के अंतर्गत, कोई तथ्य दूसरे तथ्य से 'सुसंगत' तब होता है जब वह उससे किसी ऐसे तरीके से संबद्ध हो जिसका उल्लेख किन उपबंधों में हो?",
+    "options": [
+      "सबूत के भार से संबंधित",
+      "तथ्यों की सुसंगति से संबंधित",
+      "विबंधन (estoppel) से संबंधित",
+      "साक्षियों की परीक्षा से संबंधित"
+    ],
+    "answer": 1,
+    "explain": "धारा 2(1) की 'सुसंगत' की परिभाषा सुसंगति को अधिनियम के अपने ही तथ्यों की सुसंगति संबंधी उपबंधों (अध्याय II) में दिए गए संबंध के तरीकों से जोड़ती है।"
+  }
+];
+const DURATION = 45 * 60;
+
+let current = 0;
+let selections = {};
+let flagged = {};
+let secondsLeft = DURATION;
+let timerHandle = null;
+let studentName = "";
+
+const $ = id => document.getElementById(id);
+
+function fmt(s) {
+  const m = Math.floor(s/60).toString().padStart(2,'0');
+  const sec = Math.floor(s%60).toString().padStart(2,'0');
+  return m + ':' + sec;
+}
+
+function showScreen(id) {
+  ['startScreen','testScreen','resultScreen','reviewScreen'].forEach(s => $(s).classList.toggle('hidden', s !== id));
+}
+
+function startTest() {
+  const nameVal = $('nameInput').value.trim();
+  if (!nameVal) { $('nameError').style.display = 'block'; return; }
+  $('nameError').style.display = 'none';
+  studentName = nameVal;
+
+  current = 0; selections = {}; flagged = {}; secondsLeft = DURATION;
+  $('timerBox').classList.remove('hidden');
+  showScreen('testScreen');
+  renderQuestion();
+  clearInterval(timerHandle);
+  timerHandle = setInterval(() => {
+    secondsLeft--;
+    if (secondsLeft <= 0) { secondsLeft = 0; updateTimer(); clearInterval(timerHandle); submitTest(); return; }
+    updateTimer();
+  }, 1000);
+  updateTimer();
+}
+
+function updateTimer() {
+  $('timerText').textContent = fmt(secondsLeft);
+  const box = $('timerBox');
+  box.classList.remove('warn','critical');
+  if (secondsLeft <= 60) box.classList.add('critical');
+  else if (secondsLeft <= 300) box.classList.add('warn');
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  $('subjectTag').textContent = q.subject;
+  $('qText').textContent = q.q;
+  $('progressFill').style.width = ((current+1)/QUESTIONS.length*100) + '%';
+  $('progressLabel').textContent = 'Q' + (current+1) + ' / ' + QUESTIONS.length + ' \u00b7 ' + Object.keys(selections).length + ' answered';
+
+  const optionsCol = $('optionsCol');
+  optionsCol.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn' + (selections[current] === idx ? ' selected' : '');
+    btn.innerHTML = '<span class="option-letter">' + String.fromCharCode(65+idx) + '</span><span class="option-text"></span>';
+    btn.querySelector('.option-text').textContent = opt;
+    btn.onclick = () => { selections[current] = idx; renderQuestion(); renderDots(); };
+    optionsCol.appendChild(btn);
+  });
+
+  $('flagBtn').classList.toggle('active', !!flagged[current]);
+  $('flagLabel').textContent = flagged[current] ? 'Flagged' : 'Flag for review';
+
+  $('prevBtn').disabled = current === 0;
+  const isLast = current === QUESTIONS.length - 1;
+  $('nextBtn').classList.toggle('hidden', isLast);
+  $('submitBtn').classList.toggle('hidden', !isLast);
+
+  renderDots();
+}
+
+function renderDots() {
+  const dotsRow = $('dotsRow');
+  dotsRow.innerHTML = '';
+  QUESTIONS.forEach((_, idx) => {
+    const answered = selections[idx] !== undefined;
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (answered ? ' answered' : '') + (idx === current ? ' current' : '');
+    dot.textContent = idx + 1;
+    dot.onclick = () => { current = idx; renderQuestion(); };
+    dotsRow.appendChild(dot);
+  });
+}
+
+function submitTest() {
+  clearInterval(timerHandle);
+  let score = 0, attempted = 0;
+  QUESTIONS.forEach((q, idx) => {
+    if (selections[idx] !== undefined) { attempted++; if (selections[idx] === q.answer) score++; }
+  });
+  const wrong = attempted - score;
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  const verdict = pct >= 80 ? 'Strong showing' : pct >= 50 ? 'Solid attempt' : 'Needs revision';
+
+  $('studentNameLabel').textContent = studentName;
+  $('scoreVal').textContent = score;
+  $('verdictText').textContent = verdict;
+  $('correctVal').textContent = score;
+  $('wrongVal').textContent = wrong;
+  $('unattVal').textContent = QUESTIONS.length - attempted;
+  $('sentNote').style.display = 'none';
+
+  const grid = $('reviewGrid');
+  grid.innerHTML = '';
+  QUESTIONS.forEach((q, idx) => {
+    const attemptedQ = selections[idx] !== undefined;
+    const correct = selections[idx] === q.answer;
+    const tile = document.createElement('button');
+    tile.className = 'review-tile';
+    tile.style.borderColor = !attemptedQ ? 'rgba(15,31,61,0.14)' : (correct ? '#4C7A5A' : '#A13D3D');
+    tile.innerHTML = '<span>Q' + (idx+1) + '</span>';
+    const icon = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    icon.setAttribute('width','12'); icon.setAttribute('height','12'); icon.setAttribute('viewBox','0 0 24 24');
+    icon.setAttribute('fill','none'); icon.setAttribute('stroke', !attemptedQ ? '#8A8471' : (correct ? '#4C7A5A' : '#A13D3D'));
+    icon.setAttribute('stroke-width','2.5');
+    icon.innerHTML = !attemptedQ ? '<circle cx="12" cy="12" r="9"/>' : (correct ? '<path d="M20 6 9 17l-5-5"/>' : '<path d="M18 6 6 18M6 6l12 12"/>');
+    tile.appendChild(icon);
+    tile.onclick = () => showReview(idx);
+    grid.appendChild(tile);
+  });
+
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const msg = "Judiciary Prime \u2014 BSA 2023 Test 02 (Hindi) Result\n" +
+    "Name: " + studentName + "\n" +
+    "Score: " + score + "/" + QUESTIONS.length + " (Correct: " + score + ", Wrong: " + wrong + ", Unattempted: " + (QUESTIONS.length - attempted) + ")\n" +
+    "Date: " + dateStr;
+  $('whatsappBtn').href = "https://wa.me/" + RESULT_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+  $('whatsappBtn').onclick = () => { $('sentNote').style.display = 'block'; };
+
+  $('timerBox').classList.add('hidden');
+  showScreen('resultScreen');
+}
+
+function showReview(idx) {
+  const q = QUESTIONS[idx];
+  const chosen = selections[idx];
+  $('rSubjectTag').textContent = q.subject;
+  $('rQNum').textContent = 'प्रश्न ' + (idx+1);
+  $('rQText').textContent = q.q;
+  $('rExplainText').textContent = q.explain;
+
+  const col = $('rOptionsCol');
+  col.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const isAnswer = i === q.answer;
+    const isChosen = i === chosen;
+    const row = document.createElement('div');
+    row.className = 'review-option';
+    row.style.borderColor = isAnswer ? '#4C7A5A' : (isChosen ? '#A13D3D' : 'rgba(243,238,225,0.14)');
+    row.style.background = isAnswer ? 'rgba(76,122,90,0.1)' : (isChosen ? 'rgba(161,61,61,0.1)' : 'transparent');
+    const iconColor = isAnswer ? '#4C7A5A' : (isChosen ? '#A13D3D' : 'rgba(243,238,225,0.25)');
+    const iconPath = isAnswer ? '<path d="M20 6 9 17l-5-5"/>' : (isChosen ? '<path d="M18 6 6 18M6 6l12 12"/>' : '<circle cx="12" cy="12" r="9"/>');
+    row.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="'+iconColor+'" stroke-width="2.5">'+iconPath+'</svg><span class="option-text"></span>';
+    row.querySelector('.option-text').textContent = opt;
+    col.appendChild(row);
+  });
+
+  showScreen('reviewScreen');
+}
+
+$('startBtn').onclick = startTest;
+$('nameInput').addEventListener('keydown', e => { if (e.key === 'Enter') startTest(); });
+$('prevBtn').onclick = () => { if (current > 0) { current--; renderQuestion(); } };
+$('nextBtn').onclick = () => { if (current < QUESTIONS.length - 1) { current++; renderQuestion(); } };
+$('submitBtn').onclick = submitTest;
+$('flagBtn').onclick = () => { flagged[current] = !flagged[current]; renderQuestion(); };
+$('retakeBtn').onclick = () => { $('nameInput').value = studentName; showScreen('startScreen'); };
+$('backBtn').onclick = () => showScreen('resultScreen');
+</script>
+</body>
+</html>
